@@ -11,10 +11,10 @@ const OBSTACLE_HEIGHT = 50;
 
 // Physics and speed parameters for each planet.
 const planetConfigs = {
-  Earth: { gravity: 0.8, jumpSpeed: 25 },
-  Moon: { gravity: 0.2, jumpSpeed: 22 },
-  Mars: { gravity: 0.5, jumpSpeed: 24 },
-  Jupiter: { gravity: 1.2, jumpSpeed: 28 }
+  Earth: { gravity: 0.8, jumpSpeed: 15 },
+  Moon: { gravity: 0.2, jumpSpeed: 12 },
+  Mars: { gravity: 0.5, jumpSpeed: 14 },
+  Jupiter: { gravity: 1.2, jumpSpeed: 18 }
 };
 
 // Obstacle spawn delay range (in milliseconds)
