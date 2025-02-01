@@ -1,0 +1,1 @@
+Dino game, with planet selector, made entirely using ChatGPT o3-mini!
