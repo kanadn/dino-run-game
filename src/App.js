@@ -160,10 +160,17 @@ function App() {
     setIsJumping(true);
     const { jumpSpeed, gravity } = planetConfigs[selectedPlanet];
     let currentJumpSpeed = jumpSpeed;
+    let lastTime = performance.now(); // Track the last frame time
+  
     jumpIntervalId.current = setInterval(() => {
+      const now = performance.now();
+      const deltaTime = (now - lastTime) / 16.67; // Normalize to 60 FPS (16.67ms per frame)
+      lastTime = now;
+  
       setDinoBottom(prevBottom => {
-        let newBottom = prevBottom + currentJumpSpeed;
-        currentJumpSpeed -= gravity;
+        let newBottom = prevBottom + currentJumpSpeed * deltaTime;
+        currentJumpSpeed -= gravity * deltaTime;
+  
         if (newBottom <= 0) {
           newBottom = 0;
           setIsJumping(false);
@@ -173,6 +180,7 @@ function App() {
       });
     }, 20);
   };
+  
 
   useEffect(() => {
     if (gameStatus === "playing") {
