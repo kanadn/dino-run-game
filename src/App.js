@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Analytics } from "@vercel/analytics/react";
 
 // Updated game dimensions
 const GAME_WIDTH = 1500;
@@ -295,6 +296,7 @@ function App() {
           ))}
         </select>
       </div>
+      <Analytics />
     </div>
   );
   
