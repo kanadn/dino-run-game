@@ -63,7 +63,6 @@ function App() {
     setGameSpeed(INITIAL_GAME_SPEED); // Reset to initial speed on game over/restart
   };
   
-
   // When the selected planet changes, reset the game.
   const handlePlanetChange = (e) => {
     setSelectedPlanet(e.target.value);
@@ -71,19 +70,24 @@ function App() {
     resetGame();
   };
 
+  // Centralize action logic for starting, jumping, and restarting.
+  const handleAction = () => {
+    if (gameStatus === "ready") {
+      startGame();
+    } else if (gameStatus === "playing") {
+      if (!isJumping) {
+        startJump();
+      }
+    } else if (gameStatus === "gameOver") {
+      resetGame();
+    }
+  };
+
   // Keydown listener to start game, jump, or restart after game over.
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.code === 'Space') {
-        if (gameStatus === "ready") {
-          startGame();
-        } else if (gameStatus === "playing") {
-          if (!isJumping) {
-            startJump();
-          }
-        } else if (gameStatus === "gameOver") {
-          resetGame();
-        }
+        handleAction();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -134,11 +138,9 @@ function App() {
           })
           .filter(obs => obs.left + OBSTACLE_WIDTH > 0);
 
-        // Increase score and game speed based on obstacles passed.
+        // Increase score based on obstacles passed.
         if (passedCount > 0) {
-        //   setScore(prevScore => prevScore + passedCount);
-        //   setGameSpeed(prevSpeed => prevSpeed + 0.2 * passedCount);
-        setScore(prevScore => prevScore + passedCount);
+          setScore(prevScore => prevScore + passedCount);
         }
 
         // Collision detection.
@@ -182,7 +184,6 @@ function App() {
     }, 20);
   };
   
-
   useEffect(() => {
     if (gameStatus === "playing") {
       // Increase game speed using a logarithmic function.
@@ -194,7 +195,6 @@ function App() {
     }
   }, [score, gameStatus]);  
   
-
   // Clean up intervals/timeouts if the component unmounts.
   useEffect(() => {
     return () => {
@@ -216,6 +216,7 @@ function App() {
           backgroundColor: '#f7f7f7',
           margin: '0 auto'
         }}
+        onTouchStart={handleAction}  // Allow mobile tap to trigger game actions
       >
         {/* Dino element */}
         <img
@@ -260,7 +261,7 @@ function App() {
               color: '#333'
             }}
           >
-            Press Space to Start
+            Press Space or Tap to Start
           </div>
         )}
         {gameStatus === "gameOver" && (
@@ -274,7 +275,7 @@ function App() {
               color: 'red'
             }}
           >
-            Game Over! Press Space to Restart
+            Game Over! Press Space or Tap to Restart
           </div>
         )}
       </div>
@@ -299,7 +300,6 @@ function App() {
       <Analytics />
     </div>
   );
-  
 }
-
+  
 export default App;
